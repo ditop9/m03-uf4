@@ -1,4 +1,4 @@
-package pt_2.new_contractes;
+package pt_2.contractes;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

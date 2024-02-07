@@ -1,4 +1,4 @@
-package pt_2.new_contractes;
+package pt_2.contractes;
 
 public class Empresa {
     private String cif;
