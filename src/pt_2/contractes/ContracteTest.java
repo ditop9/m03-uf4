@@ -1,5 +1,7 @@
 package pt_2.contractes;
 
+import pt_2.telefonia.Client;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -44,11 +46,21 @@ public class ContracteTest {
                 introduirNouEmpleatBBDD();
                 break;
             case 2:
-                System.out.println("Quin és l'empleat?");
-                imprimirEmpleats();
-                numeroEmpleat = sc.nextInt();
-                empleat = buscarEmpleatBBDD(numeroEmpleat);
-                signarNouContracte(empleat);
+                if (verificarDBBuida()) {
+                    empleat = escollirEmpleat();
+
+                }
+                break;
+            case 3:
+                if (verificarDBBuida()) {
+                    empleat = escollirEmpleat();
+                    empleat.signarNouContracte();
+                } else {
+                    System.out.println("No hi ha dades d'empleats al sistema");
+                    runApp();
+                }
+                break;
+            case 4:
                 break;
             case 0:
                 System.out.println("El programa es tanca...");
@@ -59,4 +71,55 @@ public class ContracteTest {
                 break;
         }
     }
+    static Empleat escollirEmpleat() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Quin és l'empleat?");
+        imprimirEmpleats();
+        int index = -1;
+        try {
+            index = sc.nextInt() - 1;
+        }catch (InputMismatchException e) {
+            System.out.println("No és una opció vàlida.\n" +
+                    "Tornant al menú...");
+            runApp();
+        }
+        return EMPLEATS_DB.get(index);
+    }
+    static void imprimirEmpleats() {
+        for (int i = 0; i < EMPLEATS_DB.size(); i++) {
+            System.out.println((i + 1) + ". " + EMPLEATS_DB.get(i));
+        }
+    }
+    public static String introduirDni() {
+        Scanner sc = new Scanner(System.in);
+        String dni;
+        do {
+            System.out.println("Introdueix el DNI");
+            dni = sc.nextLine();
+            if (verificarDuplicacioDni(dni)) {
+                System.out.println("Aquest DNI ja es troba registrat");
+            }
+        }while (verificarDuplicacioDni(dni));
+        return dni;
+    }
+    public static void introduirNouEmpleatBBDD() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introdueix el nom de l'empleat.");
+        String nom = sc.nextLine();
+        String dni = introduirDni();
+        Empleat empleat = new Empleat(dni, nom);
+        EMPLEATS_DB.add(empleat);
+    }
+    static boolean verificarDuplicacioDni(String dni) {
+        for (Empleat empleat : EMPLEATS_DB) {
+            if (dni.equals(empleat.getDni())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    static boolean verificarDBBuida() {
+        return EMPLEATS_DB.isEmpty();
+    }
+
 }

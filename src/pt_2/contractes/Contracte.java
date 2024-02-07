@@ -3,6 +3,7 @@ package pt_2.contractes;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Contracte {
     private int codi;
@@ -23,7 +24,6 @@ public class Contracte {
     }
     public Contracte(int codi){
         this.codi = codi;
-
     }
     public Contracte(Empresa empresa) {
         Random random = new Random();

@@ -1,6 +1,7 @@
 package pt_2.contractes;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Empleat {
     private ArrayList<Contracte> contractesDeLaPersona = new ArrayList<>();
@@ -21,6 +22,11 @@ public class Empleat {
     public Empleat(String dni, String nom) {
         this.dni = dni;
         this.nom = nom;
+    }
+    public void signarNouContracte() {
+        Empresa empresa = Empresa.generarEmpresa();
+        Contracte contracte = new Contracte(empresa);
+        contractesDeLaPersona.add(contracte);
     }
     public int determinarQuantitatEmpresesTreballades() {
         ArrayList<Empresa>empreses = new ArrayList<>();
