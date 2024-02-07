@@ -25,6 +25,9 @@ public class Contracte {
     public Contracte(int codi){
         this.codi = codi;
     }
+    public double calcularDuradaContracte() {
+        return ChronoUnit.DAYS.between(dataIniciContracte, dataFinContracte);
+    }
     public Contracte(Empresa empresa) {
         Random random = new Random();
         this.codi = random.nextInt(99999999 - 10000000 + 1) + 10000000;
@@ -37,9 +40,6 @@ public class Contracte {
         this.codi = codi;
         this.dataIniciContracte = dataIniciContracte;
         this.dataFinContracte = dataFinContracte;
-    }
-    public void comptarDuradaContracte() {
-        System.out.println(ChronoUnit.DAYS.between(getDataIniciContracte(), getDataFinContracte()));
     }
     public void determinarDuradaContracte(LocalDate dataIniciContracte, LocalDate dataFinContracte){
         this.dataIniciContracte = dataIniciContracte;

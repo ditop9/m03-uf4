@@ -1,7 +1,5 @@
 package pt_2.contractes;
 
-import pt_2.telefonia.Client;
-
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -36,9 +34,6 @@ public class ContracteTest {
         System.out.println("0. Tancar programa");
     }
     public static void runMenu(int option) {
-        Scanner sc = new Scanner(System.in);
-
-        int numeroEmpleat;
         Empleat empleat;
 
         switch (option) {
@@ -48,7 +43,7 @@ public class ContracteTest {
             case 2:
                 if (verificarDBBuida()) {
                     empleat = escollirEmpleat();
-
+                    System.out.println(empleat.determinarQuantitatEmpresesTreballades());
                 }
                 break;
             case 3:
@@ -61,6 +56,13 @@ public class ContracteTest {
                 }
                 break;
             case 4:
+                if (verificarDBBuida()) {
+                    empleat = escollirEmpleat();
+                    empleat.imprimirContractes();
+                } else {
+                    System.out.println("No hi ha dades d'empleats al sistema");
+                    runApp();
+                }
                 break;
             case 0:
                 System.out.println("El programa es tanca...");
@@ -121,5 +123,4 @@ public class ContracteTest {
     static boolean verificarDBBuida() {
         return EMPLEATS_DB.isEmpty();
     }
-
 }

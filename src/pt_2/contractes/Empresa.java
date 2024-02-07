@@ -7,8 +7,8 @@ public class Empresa {
     private String nom;
     private String sectorEmpresarial;
 
-    public String getNom() {
-        return nom;
+    public String getCif() {
+        return cif;
     }
 
     public Empresa(String cif, String nom, String sectorEmpresarial) {

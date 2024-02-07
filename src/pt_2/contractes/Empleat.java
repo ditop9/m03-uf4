@@ -11,13 +11,13 @@ public class Empleat {
     public String getDni() {
         return dni;
     }
-
+    public void imprimirContractes(){
+        for (int i = 0; i < contractesDeLaPersona.size(); i++) {
+            System.out.println((i + 1) + ". " + contractesDeLaPersona.get(i));
+        }
+    }
     public void afegirNouContracte(Contracte contracte) {
         contractesDeLaPersona.add(contracte);
-    }
-    public void signarNouContracte(Empresa empresa) {
-        Contracte contracte = new Contracte(empresa);
-        afegirNouContracte(contracte);
     }
     public Empleat(String dni, String nom) {
         this.dni = dni;
@@ -29,21 +29,19 @@ public class Empleat {
         contractesDeLaPersona.add(contracte);
     }
     public int determinarQuantitatEmpresesTreballades() {
-        ArrayList<Empresa>empreses = new ArrayList<>();
-        int quantitatEmpreses = 0;
+        ArrayList<Empresa> empresesComptador = new ArrayList<>();
         for (Contracte contracte : contractesDeLaPersona) {
-            boolean esRepeteix = false;
-            for (Empresa empresa : empreses) {
-                if (contracte.getEmpresa().getNom().equals(empresa.getNom())) {
-                    esRepeteix = true;
+            boolean esTroba = false;
+            for (Empresa empresa : empresesComptador) {
+                if (contracte.getEmpresa().getCif().equals(empresa.getCif())) {
+                    esTroba = true;
                     break;
                 }
             }
-            if (!esRepeteix) {
-                quantitatEmpreses++;
-                empreses.add(contracte.getEmpresa());
+            if (!esTroba) {
+                empresesComptador.add(contracte.getEmpresa());
             }
         }
-        return quantitatEmpreses;
+        return empresesComptador.size();
     }
 }
