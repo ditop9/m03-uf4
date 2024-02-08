@@ -1,6 +1,7 @@
 package pt_2.ex_3;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Ferry {
     ArrayList<Camio> camionsEmbarcats = new ArrayList<>();
@@ -10,6 +11,20 @@ public class Ferry {
     private float preuPes;
     private float pesMaxim;
     private int camionsCarregats;
+    public static Ferry generarNouFerry(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Introudeix la matrícula del Ferry");
+        String matricula = sc.nextLine();
+        System.out.println("Introdueix el nom del Ferry");
+        String nom = sc.nextLine();
+        System.out.println("Introdueix la destinació del Ferry");
+        String portDesti = sc.nextLine();
+        System.out.println("Introdueix el preu en euros per Tm de pes");
+        float preuPes = sc.nextFloat();
+        System.out.println("Introdueix el pes màxim del Ferry");
+        float pesMaxim = sc.nextFloat();
+        return new Ferry(matricula, nom, portDesti, preuPes, pesMaxim);
+    }
     public Ferry(String matriculaFerry, String nom, String portDesti, float preuPes, float pesMaxim){
         this.matriculaFerry = matriculaFerry;
         this.nom = nom;

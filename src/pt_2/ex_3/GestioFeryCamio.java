@@ -43,7 +43,7 @@ public class GestioFeryCamio {
             case 7:
                 break;
             case 8:
-
+                introduirNouFerry();
                 break;
             case 9:
                 if (verificarFerriesDisponibles()) {
@@ -60,7 +60,8 @@ public class GestioFeryCamio {
         }
     }
     public static void introduirNouFerry() {
-
+        Ferry ferry = Ferry.generarNouFerry();
+        ferriesDisponibles.add(ferry);
     }
     public static void mostrarFerriesDisponibles() {
         for (int i = 0; i < ferriesDisponibles.size(); i++) {
