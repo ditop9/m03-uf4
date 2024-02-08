@@ -1,4 +1,4 @@
-package pt_2.contractes;
+package pt_2.ex_5;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -43,26 +43,29 @@ public class ContracteTest {
             case 2:
                 if (verificarDBBuida()) {
                     empleat = escollirEmpleat();
-                    System.out.println(empleat.determinarQuantitatEmpresesTreballades());
-                }
+                    long diesTotalsTreballats = empleat.determinarDuradaTotalContractes();
+                    System.out.println(diesTotalsTreballats);
+                } else controlarDBBuida();
                 break;
             case 3:
                 if (verificarDBBuida()) {
                     empleat = escollirEmpleat();
-                    empleat.signarNouContracte();
-                } else {
-                    System.out.println("No hi ha dades d'empleats al sistema");
-                    runApp();
-                }
+                    System.out.println(empleat.determinarQuantitatEmpresesTreballades());
+                } else controlarDBBuida();
                 break;
             case 4:
                 if (verificarDBBuida()) {
                     empleat = escollirEmpleat();
+                    empleat.signarNouContracte();
+                } else controlarDBBuida();
+                break;
+            case 5:
+                if (verificarDBBuida()) {
+                    empleat = escollirEmpleat();
+                    System.out.println("Quin és el contracte del que voleu determinar la durada?");
                     empleat.imprimirContractes();
-                } else {
-                    System.out.println("No hi ha dades d'empleats al sistema");
-                    runApp();
-                }
+                    long duradaContracte ;
+                } else controlarDBBuida();
                 break;
             case 0:
                 System.out.println("El programa es tanca...");
@@ -122,5 +125,9 @@ public class ContracteTest {
     }
     static boolean verificarDBBuida() {
         return EMPLEATS_DB.isEmpty();
+    }
+    static void controlarDBBuida() {
+        System.out.println("No hi ha dades d'empleats al sistema");
+        runApp();
     }
 }

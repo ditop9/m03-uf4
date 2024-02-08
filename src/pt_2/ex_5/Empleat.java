@@ -1,7 +1,7 @@
-package pt_2.contractes;
+package pt_2.ex_5;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Empleat {
     private ArrayList<Contracte> contractesDeLaPersona = new ArrayList<>();
@@ -18,6 +18,13 @@ public class Empleat {
     }
     public void afegirNouContracte(Contracte contracte) {
         contractesDeLaPersona.add(contracte);
+    }
+    public long determinarDuradaTotalContractes(){
+        long diesTotals = 0;
+        for (Contracte contracte : contractesDeLaPersona) {
+            diesTotals += ChronoUnit.DAYS.between(contracte.getDataIniciContracte(), contracte.getDataFinContracte());
+        }
+        return diesTotals;
     }
     public Empleat(String dni, String nom) {
         this.dni = dni;

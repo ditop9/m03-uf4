@@ -1,4 +1,4 @@
-package pt_2.telefonia;
+package pt_2.ex_4;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package pt_2.contractes;
+package pt_2.ex_5;
 
 import java.util.Scanner;
 

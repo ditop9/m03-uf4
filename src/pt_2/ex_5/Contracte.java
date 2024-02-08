@@ -1,9 +1,8 @@
-package pt_2.contractes;
+package pt_2.ex_5;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Contracte {
     private int codi;
