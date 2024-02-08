@@ -26,6 +26,7 @@ public class GestioFeryCamio {
         System.out.println();
     }
     static void handleOption(int option){
+        Ferry ferry;
         switch (option){
             case 1:
 
@@ -35,6 +36,11 @@ public class GestioFeryCamio {
             case 3:
                 break;
             case 4:
+                if (verificarFerriesDisponibles()) {
+                    mostrarFerriesDisponibles();
+                    ferry = escollirFerry();
+
+                } else handleFerriesNoDisponibles();
                 break;
             case 5:
                 break;
@@ -67,6 +73,28 @@ public class GestioFeryCamio {
         for (int i = 0; i < ferriesDisponibles.size(); i++) {
             System.out.println((i + 1) + ". " + ferriesDisponibles.get(i));
         }
+    }
+    static Ferry escollirFerry() {
+        Scanner sc = new Scanner(System.in);
+            System.out.println("INTRODUEIX EL NÚMERO DEL FERRY QUE VOLS ESCOLLIR");
+            int ferryEscollit = -1;
+            do {
+                try {
+                    ferryEscollit = sc.nextInt() - 1;
+                }catch (InputMismatchException e){
+                    System.out.println("ERROR: NO ÉS UN CARÀCTER VÀLID");
+                }
+            } while (verificarExistenciaFerry(ferryEscollit));
+            return ferriesDisponibles.get(ferryEscollit);
+    }
+    static boolean verificarExistenciaFerry(int index) {
+        try {
+            Ferry ferry = ferriesDisponibles.get(index);
+        }catch (IndexOutOfBoundsException e) {
+            System.out.println("ERROR: NO ÉS TROBA EL FERRY");
+            return false;
+        }
+        return true;
     }
     static boolean verificarFerriesDisponibles() {
         return !ferriesDisponibles.isEmpty();

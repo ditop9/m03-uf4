@@ -25,6 +25,10 @@ public class Ferry {
         float pesMaxim = sc.nextFloat();
         return new Ferry(matricula, nom, portDesti, preuPes, pesMaxim);
     }
+    public void embarcarCamio(){
+        Camio camio = Camio.generarCamio();
+
+    }
     public Ferry(String matriculaFerry, String nom, String portDesti, float preuPes, float pesMaxim){
         this.matriculaFerry = matriculaFerry;
         this.nom = nom;
