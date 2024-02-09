@@ -41,29 +41,16 @@ public class GestioFeryCamio {
         Ferry ferry;
         switch (option){
             case 1:
-                if (verificarVehiclesDisponibles(ferriesDisponibles)) {
-                    mostrarVehiclesDisponibles(ferriesDisponibles);
-                    ferry = escollirFerry();
-                    float pesCarregaFerry = ferry.calcularPesCarregaFerry();
-                    System.out.println("Pes de la càrrega: " + pesCarregaFerry + "Tm\n" +
-                            "Pes màxim del ferry: " + ferry.getPesMaxim() + " Tm");
-                } else handleVehiclesNoDisponibles();
+                determinarPesTotalCamionsEmbarcats();
                 break;
             case 2:
-                if (verificarVehiclesDisponibles(camionsExistents)) {
-
-                } else handleVehiclesNoDisponibles();
+                determinarCamioEmbarcat();
                 break;
             case 3:
+                determinarCamioPotEmbarcar();
                 break;
             case 4:
-                if (verificarVehiclesDisponibles(ferriesDisponibles)) {
-                    mostrarVehiclesDisponibles(ferriesDisponibles);
-                    ferry = escollirFerry();
-                    Camio camio = Camio.generarCamio();
-                    camionsExistents.add(camio);
-                    ferry.embarcarCamio(camio);
-                } else handleVehiclesNoDisponibles();
+                embarcarCamio();
                 break;
             case 5:
                 break;
@@ -88,6 +75,54 @@ public class GestioFeryCamio {
                 break;
         }
     }
+    public static void determinarPesTotalCamionsEmbarcats() {
+        if (verificarVehiclesDisponibles(ferriesDisponibles)) {
+            mostrarVehiclesDisponibles(ferriesDisponibles);
+            Ferry ferry = escollirFerry();
+            float pesCarregaFerry = ferry.calcularPesCarregaFerry();
+            System.out.println("Pes de la càrrega: " + pesCarregaFerry + "Tm\n" +
+                    "Pes màxim del ferry: " + ferry.getPesMaxim() + " Tm");
+        } else handleVehiclesNoDisponibles();
+    }
+    public static void determinarCamioEmbarcat() {
+        if (verificarVehiclesDisponibles(ferriesDisponibles)) {
+            if (verificarVehiclesDisponibles(camionsExistents)) {
+                mostrarVehiclesDisponibles(camionsExistents);
+                Camio camio = escollirCamio();
+                if (camio != null) {
+                    Ferry ferry = buscarCamioEmbarcat(camio);
+                    if (ferry != null) {
+                        System.out.println("CAMIÓ EMBARCAT");
+                        System.out.println(ferry);
+                        System.out.println(camio);
+                    }
+                }
+            } else handleVehiclesNoDisponibles();
+        } else handleVehiclesNoDisponibles();
+    }
+    public static void determinarCamioPotEmbarcar() {
+        if (verificarVehiclesDisponibles(ferriesDisponibles)) {
+            if (verificarVehiclesDisponibles(camionsExistents)) {
+                mostrarVehiclesDisponibles(camionsExistents);
+                Camio camio = escollirCamio();
+                if (camio != null) {
+                    Ferry ferry = buscarCamioEmbarcat(camio);
+                    if (ferry == null) {
+                        System.out.println("EL CAMIÓ POT EMBARCAR");
+                    }
+                }
+            } else handleVehiclesNoDisponibles();
+        } else handleVehiclesNoDisponibles();
+    }
+    public static void embarcarCamio() {
+        if (verificarVehiclesDisponibles(ferriesDisponibles)) {
+            mostrarVehiclesDisponibles(ferriesDisponibles);
+            Ferry ferry = escollirFerry();
+            Camio camio = Camio.generarCamio();
+            camionsExistents.add(camio);
+            ferry.embarcarCamio(camio);
+        } else handleVehiclesNoDisponibles();
+    }
     public static void introduirNouFerry() {
         Ferry ferry = Ferry.generarNouFerry();
         ferriesDisponibles.add(ferry);
@@ -97,19 +132,37 @@ public class GestioFeryCamio {
             System.out.println((i + 1) + ". " + arrayList.get(i));
         }
     }
-
     static Ferry escollirFerry() {
         Scanner sc = new Scanner(System.in);
-            System.out.println("INTRODUEIX EL NÚMERO DEL FERRY QUE VOLS ESCOLLIR");
-            int ferryEscollit = -1;
-            do {
-                try {
-                    ferryEscollit = sc.nextInt() - 1;
-                }catch (InputMismatchException e){
-                    System.out.println("ERROR: NO ÉS UN CARÀCTER VÀLID");
-                }
-            } while (verificarExistenciaFerry(ferryEscollit));
-            return ferriesDisponibles.get(ferryEscollit);
+        System.out.println("INTRODUEIX EL NÚMERO DEL FERRY QUE VOLS ESCOLLIR");
+        int ferryEscollit = -1;
+        do {
+            try {
+                ferryEscollit = sc.nextInt() - 1;
+            }catch (InputMismatchException e){
+                System.out.println("ERROR: NO ÉS UN CARÀCTER VÀLID");
+            }
+        } while (verificarExistenciaFerry(ferryEscollit));
+        return ferriesDisponibles.get(ferryEscollit);
+    }
+    static Camio escollirCamio() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("INTRODUEIX LA MATRÍCULA DEL CAMIÓ QUE VOLS ESCOLLIR");
+        String matriculaCamio = sc.nextLine();
+        for (Camio c : camionsExistents) {
+            if (c.getMatriculaCamio().equals(matriculaCamio)) {
+                return c;
+            }
+        }
+        return null;
+    }
+    public static Ferry buscarCamioEmbarcat(Camio camio) {
+        for (Ferry f : ferriesDisponibles) {
+            if (f.verificarCamioEmbarcat(camio.getMatriculaCamio())) {
+                return f;
+            }
+        }
+        return null;
     }
     static boolean verificarExistenciaFerry(int index) {
         try {

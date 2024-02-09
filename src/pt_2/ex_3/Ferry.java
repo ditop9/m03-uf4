@@ -55,6 +55,14 @@ public class Ferry {
     private boolean verificarFerryBuit() {
         return !camionsEmbarcats.isEmpty();
     }
+    public boolean verificarCamioEmbarcat(String matricula) {
+        for (Camio c : camionsEmbarcats) {
+            if (c.getMatriculaCamio().equals(matricula)) {
+                return true;
+            }
+        }
+        return false;
+    }
     public Ferry(String matriculaFerry, String nom, String portDesti, float preuPes, float pesMaxim){
         this.matriculaFerry = matriculaFerry;
         this.nom = nom;

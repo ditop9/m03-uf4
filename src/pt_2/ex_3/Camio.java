@@ -11,6 +11,10 @@ public class Camio {
         return pes;
     }
 
+    public String getMatriculaCamio() {
+        return matriculaCamio;
+    }
+
     public static Camio generarCamio() {
         Scanner sc = new Scanner(System.in);
         System.out.println("INTRODUEIX LA MATRÍCULA DEL CAMIÓ");
