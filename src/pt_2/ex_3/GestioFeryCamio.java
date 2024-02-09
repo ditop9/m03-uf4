@@ -53,6 +53,7 @@ public class GestioFeryCamio {
                 embarcarCamio();
                 break;
             case 5:
+                buscarCamioIndex();
                 break;
             case 6:
                 break;
@@ -88,7 +89,7 @@ public class GestioFeryCamio {
         if (verificarVehiclesDisponibles(ferriesDisponibles)) {
             if (verificarVehiclesDisponibles(camionsExistents)) {
                 mostrarVehiclesDisponibles(camionsExistents);
-                Camio camio = escollirCamio();
+                Camio camio = escollirCamioMatricula();
                 if (camio != null) {
                     Ferry ferry = buscarCamioEmbarcat(camio);
                     if (ferry != null) {
@@ -100,11 +101,32 @@ public class GestioFeryCamio {
             } else handleVehiclesNoDisponibles();
         } else handleVehiclesNoDisponibles();
     }
+    public static void buscarCamioIndex() {
+        Scanner sc = new Scanner(System.in);
+        if (verificarVehiclesDisponibles(ferriesDisponibles)) {
+            if (verificarVehiclesDisponibles(camionsExistents)) {
+                mostrarVehiclesDisponibles(ferriesDisponibles);
+                Ferry ferry = escollirFerry();
+                ferry.mostrarCamionsEmbarcats();
+                int indexCamio = -1;
+                do {
+                    try {
+                        System.out.println("ESCULL EL CAMIÓ");
+                        indexCamio = sc.nextInt();
+                    } catch (InputMismatchException e) {
+                        System.out.println("ERROR: NO ÉS UN CARÀCTER VÀLID");
+                    }
+                } while (verificarExistenciaCamio(indexCamio));
+                Camio camio = camionsExistents.get(indexCamio);
+                System.out.println(camio);
+            }else handleVehiclesNoDisponibles();
+        } else handleVehiclesNoDisponibles();
+    }
     public static void determinarCamioPotEmbarcar() {
         if (verificarVehiclesDisponibles(ferriesDisponibles)) {
             if (verificarVehiclesDisponibles(camionsExistents)) {
                 mostrarVehiclesDisponibles(camionsExistents);
-                Camio camio = escollirCamio();
+                Camio camio = escollirCamioMatricula();
                 if (camio != null) {
                     Ferry ferry = buscarCamioEmbarcat(camio);
                     if (ferry == null) {
@@ -145,7 +167,18 @@ public class GestioFeryCamio {
         } while (verificarExistenciaFerry(ferryEscollit));
         return ferriesDisponibles.get(ferryEscollit);
     }
-    static Camio escollirCamio() {
+    static Camio escollirCamioMatricula() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("INTRODUEIX LA MATRÍCULA DEL CAMIÓ QUE VOLS ESCOLLIR");
+        String matriculaCamio = sc.nextLine();
+        for (Camio c : camionsExistents) {
+            if (c.getMatriculaCamio().equals(matriculaCamio)) {
+                return c;
+            }
+        }
+        return null;
+    }
+    static Camio escollirCamioIndex() {
         Scanner sc = new Scanner(System.in);
         System.out.println("INTRODUEIX LA MATRÍCULA DEL CAMIÓ QUE VOLS ESCOLLIR");
         String matriculaCamio = sc.nextLine();
@@ -166,9 +199,18 @@ public class GestioFeryCamio {
     }
     static boolean verificarExistenciaFerry(int index) {
         try {
-            Ferry ferry = ferriesDisponibles.get(index);
+            ferriesDisponibles.get(index);
         }catch (IndexOutOfBoundsException e) {
             System.out.println("ERROR: NO ÉS TROBA EL FERRY");
+            return false;
+        }
+        return true;
+    }
+    static boolean verificarExistenciaCamio(int index) {
+        try {
+            camionsExistents.get(index);
+        }catch (IndexOutOfBoundsException e) {
+            System.out.println("ERROR: NO ES TROBA EL FERRY");
             return false;
         }
         return true;

@@ -52,6 +52,13 @@ public class Ferry {
             camionsCarregats++;
         }
     }
+    public void mostrarCamionsEmbarcats() {
+        if (verificarFerryBuit()) {
+            for (int i = 0; i < camionsEmbarcats.size(); i++) {
+                System.out.println((i + 1) + ". " + camionsEmbarcats.get(i));
+            }
+        }
+    }
     private boolean verificarFerryBuit() {
         return !camionsEmbarcats.isEmpty();
     }
