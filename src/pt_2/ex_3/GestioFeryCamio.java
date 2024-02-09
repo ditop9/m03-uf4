@@ -39,7 +39,7 @@ public class GestioFeryCamio {
                 if (verificarFerriesDisponibles()) {
                     mostrarFerriesDisponibles();
                     ferry = escollirFerry();
-
+                    ferry.embarcarCamio();
                 } else handleFerriesNoDisponibles();
                 break;
             case 5:

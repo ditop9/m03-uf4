@@ -5,6 +5,11 @@ import java.util.Scanner;
 public class Camio {
     private String matriculaCamio;
     private int pes;
+
+    public int getPes() {
+        return pes;
+    }
+
     public static Camio generarCamio() {
         Scanner sc = new Scanner(System.in);
         System.out.println("INTRODUEIX LA MATRÍCULA DEL CAMIÓ");
