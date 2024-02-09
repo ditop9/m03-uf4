@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class GestioFeryCamio {
     private static ArrayList<Ferry> ferriesDisponibles = new ArrayList<>();
+    private static ArrayList<Camio> camionsExistents = new ArrayList<>();
+
     public static void main(String[] args) {
         runApp();
     }
@@ -18,29 +20,50 @@ public class GestioFeryCamio {
                 option = sc.nextInt();
                 handleOption(option);
             } catch (InputMismatchException e) {
-                System.out.println("NO ÉS UN CARÀCTER VÀLID");
+                System.out.println("ERROR: NO ÉS UN CARÀCTER VÀLID");
+                sc.nextLine();
             }
         }while (option != 0);
     }
     static void runGUI(){
-        System.out.println();
+        System.out.println("\n1. Determinar pes total càrrega ferry");
+        System.out.println("2. Determinar si un camió està embarcat");
+        System.out.println("3. Determinar si un camió pot embarcar");
+        System.out.println("4. Embarcar un camió");
+        System.out.println("5. Escollir camió embarcat");
+        System.out.println("6. Determinar import de peatge d'un camió");
+        System.out.println("7. Determinar peatge total");
+        System.out.println("8. Introduïr nou ferry");
+        System.out.println("9. Mostrar ferries disponibles");
+        System.out.println("0. Tancar el programa");
     }
     static void handleOption(int option){
         Ferry ferry;
         switch (option){
             case 1:
-
+                if (verificarVehiclesDisponibles(ferriesDisponibles)) {
+                    mostrarVehiclesDisponibles(ferriesDisponibles);
+                    ferry = escollirFerry();
+                    float pesCarregaFerry = ferry.calcularPesCarregaFerry();
+                    System.out.println("Pes de la càrrega: " + pesCarregaFerry + "Tm\n" +
+                            "Pes màxim del ferry: " + ferry.getPesMaxim() + " Tm");
+                } else handleVehiclesNoDisponibles();
                 break;
             case 2:
+                if (verificarVehiclesDisponibles(camionsExistents)) {
+
+                } else handleVehiclesNoDisponibles();
                 break;
             case 3:
                 break;
             case 4:
-                if (verificarFerriesDisponibles()) {
-                    mostrarFerriesDisponibles();
+                if (verificarVehiclesDisponibles(ferriesDisponibles)) {
+                    mostrarVehiclesDisponibles(ferriesDisponibles);
                     ferry = escollirFerry();
-                    ferry.embarcarCamio();
-                } else handleFerriesNoDisponibles();
+                    Camio camio = Camio.generarCamio();
+                    camionsExistents.add(camio);
+                    ferry.embarcarCamio(camio);
+                } else handleVehiclesNoDisponibles();
                 break;
             case 5:
                 break;
@@ -52,9 +75,9 @@ public class GestioFeryCamio {
                 introduirNouFerry();
                 break;
             case 9:
-                if (verificarFerriesDisponibles()) {
-                    mostrarFerriesDisponibles();
-                } else handleFerriesNoDisponibles();
+                if (verificarVehiclesDisponibles(ferriesDisponibles)) {
+                    mostrarVehiclesDisponibles(ferriesDisponibles);
+                } else handleVehiclesNoDisponibles();
                 break;
             case 0:
                 System.out.println("EL PROGRAMA ES TANCA...");
@@ -69,11 +92,12 @@ public class GestioFeryCamio {
         Ferry ferry = Ferry.generarNouFerry();
         ferriesDisponibles.add(ferry);
     }
-    public static void mostrarFerriesDisponibles() {
-        for (int i = 0; i < ferriesDisponibles.size(); i++) {
-            System.out.println((i + 1) + ". " + ferriesDisponibles.get(i));
+    static void mostrarVehiclesDisponibles(ArrayList<?> arrayList) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            System.out.println((i + 1) + ". " + arrayList.get(i));
         }
     }
+
     static Ferry escollirFerry() {
         Scanner sc = new Scanner(System.in);
             System.out.println("INTRODUEIX EL NÚMERO DEL FERRY QUE VOLS ESCOLLIR");
@@ -96,11 +120,11 @@ public class GestioFeryCamio {
         }
         return true;
     }
-    static boolean verificarFerriesDisponibles() {
-        return !ferriesDisponibles.isEmpty();
+    static boolean verificarVehiclesDisponibles(ArrayList<?> arrayList) {
+        return !arrayList.isEmpty();
     }
-    static void handleFerriesNoDisponibles() {
-        System.out.println("NO ES TROBEN FERRIES DISPONIBLES");
+    static void handleVehiclesNoDisponibles() {
+        System.out.println("NO ES TROBEN VEHICLES DISPONIBLES");
         System.out.println("TORNANT AL MENÚ...");
         runApp();
     }

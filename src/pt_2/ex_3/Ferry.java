@@ -1,7 +1,5 @@
 package pt_2.ex_3;
 
-import com.sun.source.tree.CompilationUnitTree;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,6 +11,10 @@ public class Ferry {
     private float preuPes;
     private float pesMaxim;
     private int camionsCarregats;
+
+    public float getPesMaxim() {
+        return pesMaxim;
+    }
     public static Ferry generarNouFerry(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Introudeix la matrícula del Ferry");
@@ -27,9 +29,15 @@ public class Ferry {
         float pesMaxim = sc.nextFloat();
         return new Ferry(matricula, nom, portDesti, preuPes, pesMaxim);
     }
-    public void embarcarCamio(){
+    public float calcularPesCarregaFerry() {
         float pesTotal = 0;
-        Camio camio = Camio.generarCamio();
+        for (Camio c : camionsEmbarcats) {
+            pesTotal += c.getPes();
+        }
+        return pesTotal;
+    }
+    public void embarcarCamio(Camio camio){
+        float pesTotal = 0;
         if (verificarFerryBuit()) {
             for (Camio c : camionsEmbarcats) {
                 pesTotal += c.getPes();
@@ -39,7 +47,10 @@ public class Ferry {
         if (pesTotal > pesMaxim) {
             System.out.println("ERROR: NO ES POT EMBARCAR\n" +
                     "EL PES SUPERA EL MÀXIM DEL FERRY");
-        } else camionsEmbarcats.add(camio);
+        } else {
+            camionsEmbarcats.add(camio);
+            camionsCarregats++;
+        }
     }
     private boolean verificarFerryBuit() {
         return !camionsEmbarcats.isEmpty();
