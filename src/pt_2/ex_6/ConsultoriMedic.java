@@ -5,8 +5,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsultoriMedic {
-    private ArrayList<Consultori> availableConsultori = new ArrayList<>();
+    private static ArrayList<Consultori> availableConsultori = new ArrayList<>();
     public static void main(String[] args) {
+
         runApp();
     }
     public static void runApp() {
@@ -31,6 +32,7 @@ public class ConsultoriMedic {
             case 1:
                 break;
             case 2:
+                programVisit();
                 break;
             case 0:
                 System.out.println("EL PROGRAMA ES TANCA...");
@@ -42,6 +44,7 @@ public class ConsultoriMedic {
         }
     }
     public static void programVisit() {
+        Visita visita = Visita.generateVisit();
 
     }
 }

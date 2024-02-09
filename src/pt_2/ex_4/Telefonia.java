@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Telefonia {
-    private static final ArrayList<Client> CLIENTS_DB = new ArrayList<>();
+    private static final ArrayList<Client> clients_db = new ArrayList<>();
     public static void main(String[] args) {
         runApp();
     }
@@ -84,7 +84,7 @@ public class Telefonia {
         }
     }
     static boolean verificarDBNoBuida() {
-        return !CLIENTS_DB.isEmpty();
+        return !clients_db.isEmpty();
     }
     public static void afegirNouClient() {
         Scanner sc = new Scanner(System.in);
@@ -103,7 +103,7 @@ public class Telefonia {
         }
 
         Client client = new Client(nom, dni, preuMinut);
-        CLIENTS_DB.add(client);
+        clients_db.add(client);
     }
     public static String introduirDni() {
         Scanner sc = new Scanner(System.in);
@@ -118,7 +118,7 @@ public class Telefonia {
         return dni;
     }
     static boolean verificarDuplicacioDni(String dni) {
-        for (Client client : CLIENTS_DB) {
+        for (Client client : clients_db) {
             if (dni.equals(client.getDni())) {
                 return true;
             }
@@ -151,7 +151,7 @@ public class Telefonia {
             runApp();
         }
         try {
-            client = CLIENTS_DB.get(indexClient);
+            client = clients_db.get(indexClient);
         } catch (IndexOutOfBoundsException exception) {
             System.out.println("Aquest client no existeix.\n" +
                     "Tornant al menú...");
@@ -160,21 +160,21 @@ public class Telefonia {
         return client;
     }
     public static void mostrarClients() {
-        for (int i = 0; i < CLIENTS_DB.size(); i++) {
-            System.out.println((i + 1 + ". ") + CLIENTS_DB.get(i));
+        for (int i = 0; i < clients_db.size(); i++) {
+            System.out.println((i + 1 + ". ") + clients_db.get(i));
         }
     }
     public static void generarLlistatClients() {
-        for (int i = 0; i < CLIENTS_DB.size(); i++) {
+        for (int i = 0; i < clients_db.size(); i++) {
             int trucadesTotals = 0;
             int minutsTotals = 0;
-            System.out.println((i + 1) + ". " + CLIENTS_DB.get(i));
-            for (Trucada trucada : CLIENTS_DB.get(i).getTRUCADES()) {
+            System.out.println((i + 1) + ". " + clients_db.get(i));
+            for (Trucada trucada : clients_db.get(i).getTrucadesClient()) {
                 System.out.println(trucada);
                 trucadesTotals++;
                 minutsTotals += trucada.getMinuts();
             }
-            float preuTotal = minutsTotals * CLIENTS_DB.get(i).getPreuMinut();
+            float preuTotal = minutsTotals * clients_db.get(i).getPreuMinut();
             System.out.println("Número de trucades totals: " + trucadesTotals + "\n" +
                     "Minuts totals de trucades: " + minutsTotals + "\n" +
                     "Preu total de la factura: " + preuTotal + "€\n");
