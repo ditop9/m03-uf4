@@ -32,14 +32,30 @@ public class ConsultoriMedic {
         }while (option != 0);
     }
     public static void runGUI() {
+        System.out.println("1. PROGRAMAR UNA VISITA");
+        System.out.println("2. COMPTAR VISITES PROGRAMADES");
+        System.out.println("3. ");
+        System.out.println("4. DESPROGRAMAR UNA VISITA");
+        System.out.println("5. DESPROGRAMAR TOTES LES VISITES");
         System.out.println("0. TANCAR EL PROGRAMA");
     }
     public static void handleOption(int option) {
         switch (option) {
             case 1:
+                programVisit();
                 break;
             case 2:
-                programVisit();
+                int totalVisits = countVisits();
+                System.out.println("TOTAL DE VISITES: " + totalVisits);
+                break;
+            case 3:
+
+                break;
+            case 4:
+                deprogramVisit();
+                break;
+            case 5:
+                deprogramAllVisits();
                 break;
             case 0:
                 System.out.println("EL PROGRAMA ES TANCA...");
@@ -56,7 +72,61 @@ public class ConsultoriMedic {
         Consultori consultori = chooseConsultory();
         consultori.addConsultoryVisit(visita);
     }
-    public static void showConsultories() {
+    public static int countVisits() {
+        showConsultories();
+        Consultori consultori = chooseConsultory();
+        return consultori.countVisits();
+    }
+    public static void deprogramVisit() {
+        showConsultories();
+        Consultori consultori = chooseConsultory();
+        if (consultori.countVisits() > 0) {
+            consultori.showVisits();
+            int visitIndex = consultori.chooseVisitIndex();
+            consultori.deprogramVisit(visitIndex);
+        } else {
+            System.out.println("ERROR: NO S'HAN TROBAT VISITES PROGRAMADES PEL CONSULTORI");
+        }
+    }
+    public static void deprogramAllVisits() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("ESCULL UNA OPCIÓ:");
+        System.out.println("1. DESPROGRAMAR TOTES LES VISITES DEL SISTEMA");
+        System.out.println("2. DESPROGRAMAR TOTES LES VISITES D'UN CONSULTORI");
+        System.out.println("0. TORNAR AL MENÚ");
+        int option = 0;
+        try {
+            option = sc.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("ERROR: NO ÉS UNA OPCIÓ VÀLIDA");
+            runApp();
+        }
+        switch (option) {
+            case 1:
+                for (Consultori c : availableConsultori) {
+                    for (int i = 0; i < c.getProgrammedVisits().size(); i++) {
+                        c.deprogramVisit(i);
+                    }
+                }
+                break;
+            case 2:
+                deprogramAllVisitsOneConsultory();
+                break;
+            case 0:
+                runApp();
+                break;
+            default:
+                System.out.println("ERROR: NO ÉS UNA OPCIÓ VÀLIDA");
+        }
+    }
+    static void deprogramAllVisitsOneConsultory() {
+        showConsultories();
+        Consultori consultori = chooseConsultory();
+        for (int i = 0; i < consultori.getProgrammedVisits().size(); i++) {
+            consultori.deprogramVisit(i);
+        }
+    }
+    static void showConsultories() {
         for (int i = 0; i < availableConsultori.size(); i++) {
             System.out.println((i + 1) + ". " + availableConsultori.get(i));
         }

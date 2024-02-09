@@ -5,11 +5,18 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class Consultori {
     private ArrayList<Visita> programmedVisits = new ArrayList<>();
     private String doctorName;
     private String speciality;
+
+    public ArrayList<Visita> getProgrammedVisits() {
+        return programmedVisits;
+    }
+
     public void addConsultoryVisit(Visita visita) {
         long newVisitToMinutes = minutesBetween(visita.getVisitDate(), visita.getVisitHour());
         boolean dateAvailable = true;
@@ -26,9 +33,37 @@ public class Consultori {
             System.out.println("ERROR: JA EXISTEIX UNA VISITA PROGRAMA PER AQUESTA HORA");
         }
     }
+    public void showVisits() {
+        for (int i = 0; i < programmedVisits.size(); i++) {
+            System.out.println((i + 1) + ". " + programmedVisits.get(i));
+        }
+    }
+    public int chooseVisitIndex() {
+        Scanner sc = new Scanner(System.in);
+        int index = -1;
+        do {
+            try {
+                System.out.println("ESCULL UNA VISITA");
+                index = sc.nextInt() - 1;
+            } catch (InputMismatchException e) {
+                System.out.println("ERROR: NO ÉS UNA OPCIÓ VÀLIDA");
+            }
+        } while (index < 0 || index > programmedVisits.size());
+        return index;
+    }
+    public void deprogramVisit(int index) {
+        programmedVisits.remove(index);
+    }
     public long minutesBetween(LocalDate dayVisit, LocalTime hourVisit) {
         LocalDateTime date = LocalDateTime.of(dayVisit, hourVisit);
         return ChronoUnit.MINUTES.between(LocalDateTime.now(), date);
+    }
+    public int countVisits() {
+        int totalVisits = 0;
+        for (Visita v : programmedVisits) {
+            totalVisits++;
+        }
+        return totalVisits;
     }
 
     public Consultori(String doctorName , String speciality) {
