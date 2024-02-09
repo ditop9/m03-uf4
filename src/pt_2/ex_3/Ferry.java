@@ -15,7 +15,12 @@ public class Ferry {
     public float getPesMaxim() {
         return pesMaxim;
     }
-    public static Ferry generarNouFerry(){
+
+    public float getPreuPes() {
+        return preuPes;
+    }
+
+    public static Ferry generarNouFerry() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Introudeix la matrícula del Ferry");
         String matricula = sc.nextLine();
@@ -29,14 +34,16 @@ public class Ferry {
         float pesMaxim = sc.nextFloat();
         return new Ferry(matricula, nom, portDesti, preuPes, pesMaxim);
     }
-    public float calcularPesCarregaFerry() {
+
+    public float  calcularPesCarregaFerry() {
         float pesTotal = 0;
         for (Camio c : camionsEmbarcats) {
             pesTotal += c.getPes();
         }
         return pesTotal;
     }
-    public void embarcarCamio(Camio camio){
+
+    public void embarcarCamio(Camio camio) {
         float pesTotal = 0;
         if (verificarFerryBuit()) {
             for (Camio c : camionsEmbarcats) {
@@ -52,6 +59,7 @@ public class Ferry {
             camionsCarregats++;
         }
     }
+
     public void mostrarCamionsEmbarcats() {
         if (verificarFerryBuit()) {
             for (int i = 0; i < camionsEmbarcats.size(); i++) {
@@ -59,9 +67,11 @@ public class Ferry {
             }
         }
     }
+
     private boolean verificarFerryBuit() {
         return !camionsEmbarcats.isEmpty();
     }
+
     public boolean verificarCamioEmbarcat(String matricula) {
         for (Camio c : camionsEmbarcats) {
             if (c.getMatriculaCamio().equals(matricula)) {
@@ -70,7 +80,14 @@ public class Ferry {
         }
         return false;
     }
-    public Ferry(String matriculaFerry, String nom, String portDesti, float preuPes, float pesMaxim){
+    public float calcularPesTotal() {
+        float pesTotal = 0;
+        for (Camio c : camionsEmbarcats) {
+            pesTotal += c.getPes();
+        }
+        return pesTotal;
+    }
+    public Ferry(String matriculaFerry, String nom, String portDesti, float preuPes, float pesMaxim) {
         this.matriculaFerry = matriculaFerry;
         this.nom = nom;
         this.portDesti = portDesti;

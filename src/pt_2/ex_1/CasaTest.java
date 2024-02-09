@@ -1,4 +1,4 @@
-package pt_2.casa;
+package pt_2.ex_1;
 
 public class CasaTest {
     public static void main(String[] args) {

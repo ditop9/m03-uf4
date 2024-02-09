@@ -27,4 +27,11 @@ public class Camio {
         this.matriculaCamio = matriculaCamio;
         this.pes = pes;
     }
+
+    @Override
+    public String toString() {
+        return "\nCamio:\n" +
+                "Matrícula Camió: " + matriculaCamio + "\n" +
+                "Pes: " + pes + "\n";
+    }
 }

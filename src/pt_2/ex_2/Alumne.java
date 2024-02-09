@@ -1,4 +1,4 @@
-package pt_2.institut;
+package pt_2.ex_2;
 
 public class Alumne {
     private String nom;
