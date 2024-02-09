@@ -10,9 +10,17 @@ public class Visita {
     private LocalTime visitHour;
     private String patientName;
 
+    public LocalDate getVisitDate() {
+        return visitDate;
+    }
+    public LocalTime getVisitHour() {
+        return visitHour;
+    }
     public static Visita generateVisit() {
         Scanner sc = new Scanner(System.in);
-        return new Visita(introduceDate(), introduceHour(), sc.nextLine());
+        System.out.println("INTRODUEIX EL NOM DEL PACIENT");
+        String patientName = sc.nextLine();
+        return new Visita(introduceDate(), introduceHour(), patientName);
     }
     private static LocalDate introduceDate() {
         int day;
