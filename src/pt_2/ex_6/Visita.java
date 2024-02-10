@@ -22,25 +22,25 @@ public class Visita {
         String patientName = sc.nextLine();
         return new Visita(introduceDate(), introduceHour(), patientName);
     }
-    private static LocalDate introduceDate() {
+    public static LocalDate introduceDate() {
         int day;
         int month;
         int year;
         do {
-            System.out.println("INTRODUEIX EL DIA DE LA VISITA");
+            System.out.println("INTRODUEIX EL DIA");
             day = introduceDateValues();
         } while (day < 1 || day > 31);
         do {
-            System.out.println("INTRODUEIX EL MES DE LA VISITA");
+            System.out.println("INTRODUEIX EL MES");
             month = introduceDateValues();
         } while (month < 1 || month > 12);
         do {
-            System.out.println("INTRODUEIX L'ANY DE LA VISITA");
+            System.out.println("INTRODUEIX L'ANY");
             year = introduceDateValues();
         } while (year < LocalDate.now().getYear() || year > 2100);
         return LocalDate.of(year, month, day);
     }
-    private static LocalTime introduceHour() {
+    public static LocalTime introduceHour() {
         int hour;
         int minute;
         do {
@@ -54,7 +54,7 @@ public class Visita {
         return LocalTime.of(hour, minute);
 
     }
-    private static int introduceDateValues() {
+    public static int introduceDateValues() {
         Scanner sc = new Scanner(System.in);
         int data;
         try {
@@ -69,5 +69,13 @@ public class Visita {
         this.visitDate = visitDate;
         this.visitHour = visitHour;
         this.patientName = patientName;
+    }
+
+    @Override
+    public String toString() {
+        return "Visita: " +
+                "Data: " + visitDate +
+                "Hora: " + visitHour +
+                "Nom pacient: " + patientName + "\n";
     }
 }

@@ -1,5 +1,7 @@
 package pt_2.ex_6;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -32,9 +34,9 @@ public class ConsultoriMedic {
         }while (option != 0);
     }
     public static void runGUI() {
-        System.out.println("1. PROGRAMAR UNA VISITA");
+        System.out.println("\n1. PROGRAMAR UNA VISITA");
         System.out.println("2. COMPTAR VISITES PROGRAMADES");
-        System.out.println("3. ");
+        System.out.println("3. COMPTAR VISITES PROGRAMADES ENTRE DUES DATES");
         System.out.println("4. DESPROGRAMAR UNA VISITA");
         System.out.println("5. DESPROGRAMAR TOTES LES VISITES");
         System.out.println("0. TANCAR EL PROGRAMA");
@@ -45,17 +47,25 @@ public class ConsultoriMedic {
                 programVisit();
                 break;
             case 2:
-                int totalVisits = countVisits();
-                System.out.println("TOTAL DE VISITES: " + totalVisits);
+                if (verifyEmptyConsultories()) {
+                    int totalVisits = countVisits();
+                    System.out.println("TOTAL DE VISITES: " + totalVisits);
+                } else System.out.println("NO HI HAN VISITES PROGRAMADES");
                 break;
             case 3:
-
+                if (verifyEmptyConsultories()) {
+                    countVisitsBetweenTwoDates();
+                } else System.out.println("NO HI HAN VISITES PROGRAMADES");
                 break;
             case 4:
-                deprogramVisit();
+                if (verifyEmptyConsultories()) {
+                    deprogramVisit();
+                } else System.out.println("NO HI HAN VISITES PROGRAMADES");
                 break;
             case 5:
-                deprogramAllVisits();
+                if (verifyEmptyConsultories()) {
+                    deprogramAllVisits();
+                } else System.out.println("NO HI HAN VISITES PROGRAMADES");
                 break;
             case 0:
                 System.out.println("EL PROGRAMA ES TANCA...");
@@ -125,6 +135,49 @@ public class ConsultoriMedic {
         for (int i = 0; i < consultori.getProgrammedVisits().size(); i++) {
             consultori.deprogramVisit(i);
         }
+    }
+    public static void countVisitsBetweenTwoDates() {
+        System.out.println("INTRODUEIX LA PRIMERA DATA");
+        LocalDate firstDay = Visita.introduceDate();
+        long startDay = ChronoUnit.DAYS.between(LocalDate.now(), firstDay);
+        System.out.println("INTRODUEIX LA SEGONA DATA");
+        LocalDate secondDay = Visita.introduceDate();
+        long endDay = ChronoUnit.DAYS.between(LocalDate.now(), secondDay);
+        if (startDay < endDay) {
+            System.out.println("VISITES ENTRE " + firstDay + " i " + secondDay);
+            int countVisits = countVisits(startDay, endDay);
+            if (countVisits > 0) {
+                System.out.println("TOTAL DE VISITES TROBADES ENTRE LES DADES: " + countVisits);
+            } else {
+                System.out.println("NO S'HAN TROBAT VISITES");
+            }
+        } else {
+            System.out.println("ERROR: L'ORDRE DE DATES NO ÉS CORRECTE");
+            System.out.println("TORNANT AL MENÚ...");
+            runApp();
+        }
+    }
+    static int countVisits(long startDay, long endDay) {
+        int countVisits = 0;
+        for (Consultori c : availableConsultori) {
+            System.out.println(c);
+            for (Visita v : c.getProgrammedVisits()) {
+                long currentVisitDay = ChronoUnit.DAYS.between(LocalDate.now(), v.getVisitDate());
+                if (startDay < currentVisitDay && endDay > currentVisitDay) {
+                    System.out.println(v);
+                    countVisits++;
+                }
+            }
+        }
+        return countVisits;
+    }
+    static boolean verifyEmptyConsultories() {
+        for (Consultori c : availableConsultori) {
+            if (!c.getProgrammedVisits().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
     static void showConsultories() {
         for (int i = 0; i < availableConsultori.size(); i++) {
